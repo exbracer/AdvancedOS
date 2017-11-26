@@ -1,0 +1,118 @@
+[  113.864659] my_keyboard: loading out-of-tree module taints kernel.
+[  113.864680] my_keyboard: module verification failed: signature and/or required key missing - tainting kernel
+[  113.865069] ------------[ cut here ]------------
+[  113.865079] WARNING: CPU: 1 PID: 2064 at /build/linux-hwe-zOpU13/linux-hwe-4.10.0/kernel/irq/manage.c:1484 __free_irq+0xa4/0x290
+[  113.865080] Trying to free already-free IRQ 1
+[  113.865080] Modules linked in: my_keyboard(OE+) dm_crypt snd_intel8x0 snd_ac97_codec ac97_bus snd_pcm snd_seq_midi snd_seq_midi_event crct10dif_pclmul crc32_pclmul ghash_clmulni_intel pcbc snd_rawmidi aesni_intel aes_x86_64 crypto_simd glue_helper cryptd snd_seq intel_rapl_perf joydev snd_seq_device snd_timer vboxvideo snd vboxguest input_leds serio_raw i2c_piix4 soundcore mac_hid ttm drm_kms_helper drm fb_sys_fops syscopyarea sysfillrect sysimgblt parport_pc ppdev lp parport autofs4 hid_generic usbhid hid psmouse ahci libahci fjes e1000 video pata_acpi
+[  113.865101] CPU: 1 PID: 2064 Comm: insmod Tainted: G           OE   4.10.0-40-generic #44~16.04.1-Ubuntu
+[  113.865102] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[  113.865103] Call Trace:
+[  113.865109]  dump_stack+0x63/0x90
+[  113.865111]  __warn+0xcb/0xf0
+[  113.865112]  warn_slowpath_fmt+0x5f/0x80
+[  113.865113]  __free_irq+0xa4/0x290
+[  113.865114]  free_irq+0x39/0x90
+[  113.865118]  ? vunmap_page_range+0x20a/0x330
+[  113.865120]  ? 0xffffffffc036a000
+[  113.865122]  kb_irq_mod_init+0x10/0x1000 [my_keyboard]
+[  113.865123]  do_one_initcall+0x53/0x1c0
+[  113.865126]  ? kmem_cache_alloc_trace+0x152/0x1c0
+[  113.865128]  do_init_module+0x5f/0x1ff
+[  113.865130]  load_module+0x1825/0x1bf0
+[  113.865132]  ? __symbol_put+0x60/0x60
+[  113.865133]  ? ima_post_read_file+0x7d/0xa0
+[  113.865135]  ? security_kernel_post_read_file+0x6b/0x80
+[  113.865137]  SYSC_finit_module+0xdf/0x110
+[  113.865139]  SyS_finit_module+0xe/0x10
+[  113.865143]  entry_SYSCALL_64_fastpath+0x1e/0xad
+[  113.865144] RIP: 0033:0x7f67144de499
+[  113.865145] RSP: 002b:00007fff3588e248 EFLAGS: 00000206 ORIG_RAX: 0000000000000139
+[  113.865146] RAX: ffffffffffffffda RBX: 00007f67147a1b20 RCX: 00007f67144de499
+[  113.865147] RDX: 0000000000000000 RSI: 000055ef24ac726b RDI: 0000000000000003
+[  113.865148] RBP: 0000000000001011 R08: 0000000000000000 R09: 00007f67147a3ea0
+[  113.865148] R10: 0000000000000003 R11: 0000000000000206 R12: 00007f67147a1b78
+[  113.865149] R13: 00007f67147a1b78 R14: 000000000000270f R15: 00007f67147a21a8
+[  113.865150] ---[ end trace b41823e781a97e88 ]---
+[  113.865150] [KEYBOARD]: Entering module.
+[  113.900582] [KEYBOARD]: Scan Code 1c Released.
+[  115.619416] [KEYBOARD]: Scan Code 2a Pressed.
+[  115.747530] [KEYBOARD]: Scan Code 23 Pressed.
+[  115.821448] [KEYBOARD]: Scan Code 23 Released.
+[  115.871948] [KEYBOARD]: Scan Code 2a Released.
+[  116.159689] [KEYBOARD]: Scan Code 12 Pressed.
+[  116.271340] [KEYBOARD]: Scan Code 12 Released.
+[  116.469567] [KEYBOARD]: Scan Code 26 Pressed.
+[  116.526186] [KEYBOARD]: Scan Code 26 Released.
+[  116.631661] [KEYBOARD]: Scan Code 26 Pressed.
+[  116.741710] [KEYBOARD]: Scan Code 26 Released.
+[  116.874962] [KEYBOARD]: Scan Code 18 Pressed.
+[  116.979987] [KEYBOARD]: Scan Code 18 Released.
+[  117.390768] [KEYBOARD]: Scan Code 33 Pressed.
+[  117.500769] [KEYBOARD]: Scan Code 33 Released.
+[  117.532668] [KEYBOARD]: Scan Code 39 Pressed.
+[  117.660323] [KEYBOARD]: Scan Code 39 Released.
+[  118.585843] [KEYBOARD]: Scan Code 11 Pressed.
+[  118.734201] [KEYBOARD]: Scan Code 11 Released.
+[  118.762309] [KEYBOARD]: Scan Code 18 Pressed.
+[  118.881381] [KEYBOARD]: Scan Code 18 Released.
+[  118.944196] [KEYBOARD]: Scan Code 13 Pressed.
+[  119.067366] [KEYBOARD]: Scan Code 13 Released.
+[  119.209561] [KEYBOARD]: Scan Code 26 Pressed.
+[  119.317747] [KEYBOARD]: Scan Code 26 Released.
+[  119.470476] [KEYBOARD]: Scan Code 20 Pressed.
+[  119.598900] [KEYBOARD]: Scan Code 20 Released.
+[  119.965573] [KEYBOARD]: Scan Code 2a Pressed.
+[  120.160563] [KEYBOARD]: Scan Code 2 Pressed.
+[  120.290468] [KEYBOARD]: Scan Code 2 Released.
+[  120.380897] [KEYBOARD]: Scan Code 2a Released.
+[  123.342486] [KEYBOARD]: Scan Code 1c Pressed.
+[  123.376786] [KEYBOARD]: Scan Code 1c Released.
+[  130.541454] [KEYBOARD]: Scan Code 1f Pressed.
+[  130.685331] [KEYBOARD]: Scan Code 1f Released.
+[  130.717291] [KEYBOARD]: Scan Code 16 Pressed.
+[  130.823138] [KEYBOARD]: Scan Code 16 Released.
+[  131.017987] [KEYBOARD]: Scan Code 20 Pressed.
+[  131.132226] [KEYBOARD]: Scan Code 20 Released.
+[  131.216414] [KEYBOARD]: Scan Code 18 Pressed.
+[  131.327553] [KEYBOARD]: Scan Code 18 Released.
+[  131.949835] [KEYBOARD]: Scan Code 39 Pressed.
+[  132.097450] [KEYBOARD]: Scan Code 39 Released.
+[  132.760457] [KEYBOARD]: Scan Code 13 Pressed.
+[  132.844018] [KEYBOARD]: Scan Code 13 Released.
+[  132.965170] [KEYBOARD]: Scan Code 32 Pressed.
+[  133.072309] [KEYBOARD]: Scan Code 32 Released.
+[  138.489685] [KEYBOARD]: Scan Code 32 Pressed.
+[  138.605518] [KEYBOARD]: Scan Code 32 Released.
+[  138.705514] [KEYBOARD]: Scan Code 18 Pressed.
+[  138.840249] [KEYBOARD]: Scan Code 18 Released.
+[  138.962990] [KEYBOARD]: Scan Code 20 Pressed.
+[  139.078483] [KEYBOARD]: Scan Code 20 Released.
+[  139.878328] [KEYBOARD]: Scan Code 39 Pressed.
+[  140.012320] [KEYBOARD]: Scan Code 39 Released.
+[  140.111244] [KEYBOARD]: Scan Code 32 Pressed.
+[  140.231184] [KEYBOARD]: Scan Code 32 Released.
+[  140.354307] [KEYBOARD]: Scan Code 15 Pressed.
+[  140.481655] [KEYBOARD]: Scan Code 15 Released.
+[  141.427473] [KEYBOARD]: Scan Code 2a Pressed.
+[  141.590143] [KEYBOARD]: Scan Code c Pressed.
+[  141.712554] [KEYBOARD]: Scan Code c Released.
+[  141.713139] [KEYBOARD]: Scan Code 2a Released.
+[  142.104282] [KEYBOARD]: Scan Code 25 Pressed.
+[  142.188504] [KEYBOARD]: Scan Code 25 Released.
+[  142.315371] [KEYBOARD]: Scan Code 12 Pressed.
+[  142.425803] [KEYBOARD]: Scan Code 12 Released.
+[  142.496246] [KEYBOARD]: Scan Code 15 Pressed.
+[  142.638088] [KEYBOARD]: Scan Code 15 Released.
+[  146.329543] [KEYBOARD]: Scan Code 30 Pressed.
+[  146.444461] [KEYBOARD]: Scan Code 30 Released.
+[  146.540893] [KEYBOARD]: Scan Code 18 Pressed.
+[  146.618363] [KEYBOARD]: Scan Code 18 Released.
+[  146.856652] [KEYBOARD]: Scan Code 1e Pressed.
+[  146.973529] [KEYBOARD]: Scan Code 1e Released.
+[  147.188104] [KEYBOARD]: Scan Code 13 Pressed.
+[  147.255882] [KEYBOARD]: Scan Code 13 Released.
+[  147.575516] [KEYBOARD]: Scan Code 20 Pressed.
+[  147.696302] [KEYBOARD]: Scan Code 20 Released.
+[  149.151180] [KEYBOARD]: Scan Code 1c Pressed.
+[  149.161818] [KEYBOARD]: Exiting module.
+
