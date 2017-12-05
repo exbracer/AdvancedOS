@@ -1,0 +1,23 @@
+exbracer@exbracer-VirtualBox:~/Documents/AdvancedOS/lec06$ ./process_vma 
+I am your father!
+00400000-00401000 r-xp 00000000 00:2b 8495                               /home/exbracer/Documents/AdvancedOS/lec06/process_vma
+00600000-00601000 r--p 00000000 00:2b 8495                               /home/exbracer/Documents/AdvancedOS/lec06/process_vma
+00601000-00602000 rw-p 00001000 00:2b 8495                               /home/exbracer/Documents/AdvancedOS/lec06/process_vma
+7f0156331000-7f01564f1000 r-xp 00000000 08:01 7297                       /lib/x86_64-linux-gnu/libc-2.23.so
+7f01564f1000-7f01566f1000 ---p 001c0000 08:01 7297                       /lib/x86_64-linux-gnu/libc-2.23.so
+7f01566f1000-7f01566f5000 r--p 001c0000 08:01 7297                       /lib/x86_64-linux-gnu/libc-2.23.so
+7f01566f5000-7f01566f7000 rw-p 001c4000 08:01 7297                       /lib/x86_64-linux-gnu/libc-2.23.so
+7f01566f7000-7f01566fb000 rw-p 00000000 00:00 0 
+7f01566fb000-7f0156721000 r-xp 00000000 08:01 7269                       /lib/x86_64-linux-gnu/ld-2.23.so
+7f0156902000-7f0156905000 rw-p 00000000 00:00 0 
+7f015691e000-7f0156920000 rw-p 00000000 00:00 0 
+7f0156920000-7f0156921000 r--p 00025000 08:01 7269                       /lib/x86_64-linux-gnu/ld-2.23.so
+7f0156921000-7f0156922000 rw-p 00026000 08:01 7269                       /lib/x86_64-linux-gnu/ld-2.23.so
+7f0156922000-7f0156923000 rw-p 00000000 00:00 0 
+7fff73820000-7fff73841000 rw-p 00000000 00:00 0                          [stack]
+7fff739d5000-7fff739d7000 r--p 00000000 00:00 0                          [vvar]
+7fff739d7000-7fff739d9000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+Nooooooo!
+Child exit status:0
+
