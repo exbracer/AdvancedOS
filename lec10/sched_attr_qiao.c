@@ -12,6 +12,52 @@
 #include <stdint.h>
 #include <asm-generic/int-l64.h>
 
+// added by qiao
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <time.h>
+
+// added by qiao 
+// for periodic tasks
+#define NSEC_PER_SEC 1000000000ULL
+static inline void timespec_add_us(struct timespec *t, uint64_t p)
+{
+    p *= 1000;
+    p += t->tv_nsec;
+    while (p >= NSEC_PER_SEC)
+    {
+        p -= NSEC_PER_SEC;
+        t->tv_sec += 1;
+    }
+    t->tv_nsec = p;
+}
+
+static void wait_next_action(struct timespec *t, uint64_t period)
+{
+    // timespec_add_us(t, period);
+    clock_nanosleep(CLOCK_REALTIME, TIMER_ABSTIME, t, NULL);
+    timespec_add_us(t, period);
+}
+
+static void do_something(struct timespec *s, int id)
+{
+    struct timespec now;
+    clock_gettime(CLOCK_REALTIME, &now);
+    unsigned long long ns = (now.tv_sec - s->tv_sec)*NSEC_PER_SEC + (now.tv_nsec - s->tv_nsec);
+    double ms = (double)ns/1000000;
+    if (id == 0)
+    {
+        printf("A process: priority 99, period 1 ms, timestamp %lf ms\n", ms);
+    }
+    else if (id == 1)
+    {
+        printf("B process: priority 50, period 5 ms, timestamp %lf ms\n", ms);
+    }
+    else if (id == 2)
+    {
+        printf("C process: priority 10, period 100 ms, timestamp %lf ms\n", ms);
+    }
+}
 
 /**
  * @struct sched_attr
@@ -123,54 +169,90 @@ int migrate_thread_to_cpu(pid_t tid, int target_cpu)
 
 int main(int argc, char *argv[])
 {
-  struct sched_attr attr;
-  int ret;
-  
-  if (argc < 2) {
-    fprintf(stderr, "Usage: %s rr/fifo/deadline [priority]\n", argv[0]);
-    exit(1);
-  }
+    pid_t pid1 = -42; // for process B
+    pid_t pid2 = -42; // for process C
+    int wstatus1 = -42;
+    int wstatus2 = -42;
 
-  attr.size = sizeof(struct sched_attr);
-  attr.sched_flags = 0;
-  attr.sched_nice = 0;
-  
-  if (strcmp(argv[1], "rr") == 0) {
-    attr.sched_policy = SCHED_RR;
-  } else if (strcmp(argv[1], "fifo") == 0) {
-    attr.sched_policy = SCHED_FIFO;
-  } else if (strcmp(argv[1], "deadline") == 0) {
-    attr.sched_policy = SCHED_DEADLINE;
-  } else {
-    fprintf(stderr, "Unknown scheduling policy %s\n", argv[1]);
-    exit(2);
-  }
-  
-  if (attr.sched_policy == SCHED_RR || attr.sched_policy == SCHED_FIFO) {
-    if (argc < 3) {
-      fprintf(stderr, "SCHED_RR/FIFO require priority in argv[2]\n");
-      exit(3);
+    int ret = -1;
+    int id = 0;
+
+
+    struct timespec start;
+    clock_gettime(CLOCK_REALTIME, &start);
+    timespec_add_us(&start, 3000000);
+    struct timespec timer;
+    timer.tv_sec = start.tv_sec;
+    timer.tv_nsec = start.tv_nsec;
+
+    pid1 = fork();
+    if (pid1 == 0)
+    {
+        id = 1;
     }
-    attr.sched_priority = atoi(argv[2]);
-  } else {
-    attr.sched_priority = 0;
-    attr.sched_runtime = 1024;
-    attr.sched_deadline = 1024;
-    attr.sched_period = 0;
-  }  
+    else if (pid1 != -1)
+    {
+        pid2 = fork();
+        if (pid2 == 0)
+        {
+            id = 2;
+        }
+    }
 
-  if ((ret = sched_setattr(gettid(), &attr, 0)) != 0) {
-    perror("sched_setattr");
-    exit(ret);
-  }
+    // printf("%d, %d, %d\n", id, pid1, pid2);
+    struct sched_attr attr;
+    attr.size = sizeof(struct sched_attr);
+    attr.sched_flags = 0;
+    attr.sched_nice = 0;
 
-  /* migrate thread to CPU 0. */
-  migrate_thread_to_cpu(gettid(), 0);
+    int res = -1;
+    int count = 0;
+    int max_count = 0;
+    int period = 0;
+    attr.sched_policy = SCHED_FIFO;
+    if (id == 0)
+    {
+        attr.sched_priority = 99;
+        period = 1000;
+        max_count = 500;
+    }
+    else if (id == 1)
+    {
+        attr.sched_priority = 50;
+        period = 5000;
+        max_count = 100;
+    }
+    else if (id == 2)
+    {
+        attr.sched_priority = 10;
+        period = 100000;
+        max_count = 5;
+    }
+    
+    if ((res = sched_setattr(gettid(), &attr, 0)) != 0)
+    {
+        perror("sched_setattr");
+        exit(res);
+    }
+    migrate_thread_to_cpu(gettid(), 0);
 
-  /* do infinite loop. */
-  while (1) {
-    ;
-  }
-  
-  return 0;
+    while (count < max_count)
+    {
+        wait_next_action(&timer, period);
+        count ++;
+        do_something(&start, id);
+    }
+
+
+    // join the process
+    if (pid1 >= 0)
+    {
+        ret = waitpid(pid1, &wstatus1, 0);
+    }
+    if (pid2 >= 0)
+    {
+        ret = waitpid(pid2, &wstatus2, 0);
+    }
+
+    return 0;
 }
